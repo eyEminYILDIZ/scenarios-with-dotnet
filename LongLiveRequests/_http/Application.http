@@ -1,0 +1,18 @@
+@Url = http://localhost:5000
+@Identifier=44c36a99-6669-4c4d-8657-267ec404c73f
+
+
+### Job finishes before timeout
+GET {{Url}}/Test/JobDone
+Accept: application/json
+
+
+### Job don't finishes before timeout
+GET {{Url}}/Test/Timeout
+Accept: application/json
+
+
+### Long
+GET {{Url}}/Test/Long
+Accept: application/json
+
