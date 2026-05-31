@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="LongLiveRequests/LongLiveRequests.csproj" />
+  <Project Path="DistributedMemoryCache/DistributedMemoryCache.csproj" />
+</Solution>
