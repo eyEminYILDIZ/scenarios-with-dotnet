@@ -16,9 +16,9 @@ namespace LongLiveRequests.Controllers
 
 
 		[HttpGet("[action]")]
-		public async Task<IActionResult> JobDone()
+		public async Task<IActionResult> JobDone(CancellationToken token)
 		{
-			var cancellationTokenSource = new CancellationTokenSource();
+			using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
 
 			Task<IActionResult> timeoutTask = Jobs.TimeoutTask(3000, cancellationTokenSource.Token);
 			Task<IActionResult> jobTask = Jobs.JobTask(1000, cancellationTokenSource.Token);
@@ -35,9 +35,9 @@ namespace LongLiveRequests.Controllers
 
 
 		[HttpGet("[action]")]
-		public async Task<IActionResult> Timeout()
+		public async Task<IActionResult> Timeout(CancellationToken token)
 		{
-			var cancellationTokenSource = new CancellationTokenSource();
+			using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
 
 			Task<IActionResult> timeoutTask = Jobs.TimeoutTask(1000, cancellationTokenSource.Token);
 			Task<IActionResult> jobTask = Jobs.JobTask(3000, cancellationTokenSource.Token);
@@ -54,21 +54,27 @@ namespace LongLiveRequests.Controllers
 
 
 		[HttpGet("[action]")]
-		public async Task<IActionResult> Long()
+		public async Task<IActionResult> Long(CancellationToken token)
 		{
-			var cancellationTokenSource = new CancellationTokenSource();
+			using var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token);
 
 			Task<IActionResult> timeoutTask = Jobs.TimeoutTask(5 * 60 * 1000, cancellationTokenSource.Token);
 			Task<IActionResult> jobTask = Jobs.JobTask(9 * 60 * 1000, cancellationTokenSource.Token);
 
-			// Wait for any finished Job
-			var resultTask = await Task.WhenAny(timeoutTask, jobTask);
-			IActionResult response = await resultTask;
+			try
+			{
+				// Wait for any finished Job
+				var resultTask = await Task.WhenAny(timeoutTask, jobTask);
+				IActionResult response = await resultTask;
 
-			cancellationTokenSource.Cancel();
-			cancellationTokenSource.Dispose();
+				cancellationTokenSource.Cancel();
 
-			return await Task.FromResult(response);
+				return response;
+			}
+			catch (OperationCanceledException)
+			{
+				return StatusCode(499, "Request cancelled");
+			}
 		}
 	}
 }
