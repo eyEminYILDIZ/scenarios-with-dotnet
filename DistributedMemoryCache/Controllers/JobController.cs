@@ -26,7 +26,7 @@ namespace DistributedMemoryCache.Controllers
 		}
 
 
-		[HttpGet("[action]")]
+		[HttpGet("[action]/{uniqueIdentifier}")]
 		public async Task<IActionResult> Result(Guid uniqueIdentifier, CancellationToken token)
 		{
 			var cacheKey = uniqueIdentifier.ToString();

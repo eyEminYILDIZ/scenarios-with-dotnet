@@ -1,0 +1,18 @@
+@Url = http://localhost:5000
+@Identifier=44c36a99-6669-4c4d-8657-267ec404c73f
+
+
+### call and wait for data
+GET {{Url}}/Job/Result/{{Identifier}}
+Accept: application/json
+
+
+### set the data
+POST {{Url}}/Callback/SetData
+Content-Type: application/json
+
+{
+    "uniqueIdentifier":"{{Identifier}}",
+    "title":"test-title-1",
+    "body":"test-body-1"
+}
