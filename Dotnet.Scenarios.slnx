@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="LongLiveRequests/LongLiveRequests.csproj" />
+  <Project Path="Benchmarking/Benchmarking.csproj" />
   <Project Path="DistributedMemoryCache/DistributedMemoryCache.csproj" />
 </Solution>
