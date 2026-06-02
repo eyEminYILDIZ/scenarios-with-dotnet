@@ -1,15 +1,18 @@
+using DistributedMemoryCache;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<StudentDatabase>();
+builder.Services.AddScoped<StudentCache>();
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo { Title = "CallbackStorage", Version = "v1" });
 });
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+	options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
 var app = builder.Build();

@@ -1,0 +1,24 @@
+@Url = http://localhost:5000
+
+@Student1 = cbd511fc-3af9-4d2d-b3c8-14dbc84b4661
+@Student2 = 248043ce-a611-4939-87cd-38df953b91c5
+@Student3 = c458d768-e550-4e91-81d8-5899edfd1230
+
+
+### Get Student1 (first call hits database, subsequent calls hit cache)
+GET {{Url}}/Student/{{{{Student1}}}}
+Accept: application/json
+
+###
+
+### Get Student2 (first call hits database, subsequent calls hit cache)
+GET {{Url}}/Student/{{{{Student2}}}}
+Accept: application/json
+
+###
+
+### Get Student3 (first call hits database, subsequent calls hit cache)
+GET {{Url}}/Student/{{{{Student3}}}}
+Accept: application/json
+
+###
