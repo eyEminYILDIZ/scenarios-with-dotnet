@@ -33,7 +33,7 @@ namespace DistributedMemoryCache.Controllers
 
 			var cacheOptions = new DistributedCacheEntryOptions
 			{
-				AbsoluteExpiration = DateTime.Now.AddSeconds(5)
+				AbsoluteExpiration = DateTime.Now.AddSeconds(15)
 			};
 
 			_distributedCache.SetString(cacheKey, body, cacheOptions);
